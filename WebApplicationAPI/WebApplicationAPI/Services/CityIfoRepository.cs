@@ -6,28 +6,38 @@ namespace WebApplicationAPI.Services
 {
     public class CityIfoRepository : ICityInfoRepository
     {
-        private readonly  CItyInfoDBContext _context;
+        private readonly CItyInfoDBContext _context;
         public CityIfoRepository(CItyInfoDBContext context)
         {
-            _context=context ?? throw new ArgumentNullException(nameof(context));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
         public async Task<IEnumerable<City>> GetCitiesAsync()
         {
-            return await _context.Cities.OrderBy(c=>c.Id).ToListAsync();
+            return await _context.Cities.OrderBy(c => c.Id).ToListAsync();
         }
-        public Task<City> GetCityAsync(int id)
+        public async Task<City> GetCityAsync(int id, bool IncludePoints)
         {
-            throw new NotImplementedException();
+            if (IncludePoints)
+                return await _context.Cities.Include(c => c.PointsOfInterest).Where(c => c.Id == id).FirstOrDefaultAsync();
+            return await _context.Cities.Where(c => c.Id == id).FirstOrDefaultAsync();
         }
 
-        public Task<PointOfInterest> GetPointOfInterestAsync(int cityId, int pointOfInterestId)
+        public async Task<IEnumerable<PointOfInterest>> GetPointsOfInterestAsync(int cityId)
         {
-            throw new NotImplementedException();
+            return await _context.PointsOfInterest.Where(p => p.CityId == cityId).ToListAsync();
         }
 
-        public Task<IEnumerable<PointOfInterest>> GetPointsOfInterestAsync(int cityId)
+        public async Task<PointOfInterest> GetPointOfInterestAsync(int cityId, int pointOfInterestId)
         {
-            throw new NotImplementedException();
+
+            return await _context.PointsOfInterest.Where(p => p.CityId == cityId && p.Id == pointOfInterestId).FirstOrDefaultAsync();
+
         }
+
+        public async Task<bool> CheckCityExistAsync(int cityId)
+        {
+            return await _context.Cities.AnyAsync(c=>c.Id == cityId);
+        }
+        
     }
 }

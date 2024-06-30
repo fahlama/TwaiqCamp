@@ -1,6 +1,6 @@
 ﻿namespace WebApplicationAPI.Models
 {
-    public class PointOfInterestDTO
+    public class CityWithoutPointOfInterestDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }=string.Empty;
