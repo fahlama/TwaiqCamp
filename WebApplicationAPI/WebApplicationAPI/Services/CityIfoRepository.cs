@@ -38,6 +38,18 @@ namespace WebApplicationAPI.Services
         {
             return await _context.Cities.AnyAsync(c=>c.Id == cityId);
         }
-        
+
+       public async Task AddPointOfInterestAsync(int cityid, PointOfInterest pointOfInterest)
+        {
+            var city = await GetCityAsync(cityid, false);
+            if(city != null)
+            {
+                city.PointsOfInterest.Add(pointOfInterest);
+            }
+        }
+        public async Task<bool> SaveChangesAsync()
+        {
+            return(await _context.SaveChangesAsync()>=0);
+        }
     }
 }

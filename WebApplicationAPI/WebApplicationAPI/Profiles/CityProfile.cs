@@ -11,6 +11,7 @@ namespace WebApplicationAPI.Profiles
             CreateMap<City, CityWithoutPointOfInterestDTO>();
             CreateMap<City, CityDTO>();
             CreateMap<PointOfInterest, PointOfInterestDTO>();
+            CreateMap<PointOfInterestForCreationDTO, PointOfInterest>();
         }
     }
 }
