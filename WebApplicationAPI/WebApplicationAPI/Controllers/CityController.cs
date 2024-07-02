@@ -49,5 +49,6 @@ namespace WebApplicationAPI.Controllers
             }
             return Ok(_mapper.Map<CityWithoutPointOfInterestDTO>(cityToReturn));
         }
+        
     }
 }

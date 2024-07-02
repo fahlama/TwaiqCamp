@@ -4,10 +4,12 @@ using WebApplicationAPI.DBContext;
 using WebApplicationAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//builder.Logging.ClearProviders();
+//builder.Logging.AddConsole();
+builder.Services.AddProblemDetails();
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 //builder.Services.AddControllers().AddJsonOptions(o => o.JsonSerializerOptions
 //              .ReferenceHandler = ReferenceHandler.Preserve); 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,6 +26,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+
+    app.UseDeveloperExceptionPage();
+}
+
+if (app.Environment.IsProduction())
+{
+    app.UseExceptionHandler();
     app.UseSwagger();
     app.UseSwaggerUI();
 }

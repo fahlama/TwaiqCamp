@@ -51,5 +51,11 @@ namespace WebApplicationAPI.Services
         {
             return(await _context.SaveChangesAsync()>=0);
         }
+
+        public void DeletePointOfInterest(PointOfInterest pointofInterest)
+        {
+            _context.PointsOfInterest.Remove(pointofInterest);
+
+        }
     }
 }

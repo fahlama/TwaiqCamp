@@ -10,7 +10,7 @@ namespace WebApplicationAPI.Services
         Task<PointOfInterest> GetPointOfInterestAsync(int cityId,int pointOfInterestId);
         Task<bool> CheckCityExistAsync(int cityId);
         Task AddPointOfInterestAsync(int cityid,PointOfInterest pointOfInterest);
-       // Task DeletePointOfInterestAsync(PointOfInterest pointofInterest);
+       void DeletePointOfInterest(PointOfInterest pointofInterest);
         Task<bool> SaveChangesAsync();
         
     }
