@@ -12,6 +12,7 @@ namespace WebApplicationAPI.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
+        const int maxPageSize = 3;
         private readonly ICityInfoRepository _cityInfoRepository;
         private readonly IMapper _mapper;
         public CityController(ICityInfoRepository cityInfoRepository,IMapper mapper)
@@ -21,9 +22,14 @@ namespace WebApplicationAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CityWithoutPointOfInterestDTO>>> GetCities()
+        public async Task<ActionResult<IEnumerable<CityWithoutPointOfInterestDTO>>> GetCities
+            (string? name,string? searchQuery,int pagesize=2,int pageNumber=1)
         {
-            var cities = await _cityInfoRepository.GetCitiesAsync();
+            if (pagesize > maxPageSize)
+            {
+                pagesize = maxPageSize;
+            }
+            var cities = await _cityInfoRepository.GetCitiesAsync(name, searchQuery,pagesize,pageNumber);
             //var Results = new List<CityWithoutPointOfInterestDTO>();
             //foreach (var city in cities)
             //{

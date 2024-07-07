@@ -15,6 +15,35 @@ namespace WebApplicationAPI.Services
         {
             return await _context.Cities.OrderBy(c => c.Id).ToListAsync();
         }
+
+        public async Task<IEnumerable<City>> GetCitiesAsync(string? name,string? searchQuery,
+            int pagesize, int pageNumber)
+        {
+           
+            var collection= _context.Cities as IQueryable<City>;
+           
+            if (!string.IsNullOrEmpty(name))
+            {
+                name = name.Trim();
+                collection = collection.Where(c => c.Name == name);
+            }
+               
+            
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.Trim();
+                collection = collection.Where(
+                    c => c.Name.Contains(searchQuery) || (c.Description != null && c.Description.Contains(searchQuery)));
+
+            }
+
+
+            return await collection.OrderBy(c => c.Id)
+             .Skip(pagesize*(pageNumber-1))
+             .Take(pagesize)
+            .ToListAsync();
+
+        }
         public async Task<City> GetCityAsync(int id, bool IncludePoints)
         {
             if (IncludePoints)

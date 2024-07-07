@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using WebApplicationAPI.DBContext;
@@ -20,6 +21,7 @@ builder.Services.AddDbContext<CItyInfoDBContext>(options => {
         builder.Configuration["ConnectionStrings:CityConnection"]);
 });
 builder.Services.AddScoped<ICityInfoRepository,CityIfoRepository>();
+builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());    
 var app = builder.Build();
 
