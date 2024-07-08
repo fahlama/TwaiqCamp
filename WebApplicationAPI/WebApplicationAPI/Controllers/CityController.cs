@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using WebApplicationAPI.Services;
 namespace WebApplicationAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class CityController : ControllerBase
     {
@@ -25,6 +27,7 @@ namespace WebApplicationAPI.Controllers
         public async Task<ActionResult<IEnumerable<CityWithoutPointOfInterestDTO>>> GetCities
             (string? name,string? searchQuery,int pagesize=2,int pageNumber=1)
         {
+            
             if (pagesize > maxPageSize)
             {
                 pagesize = maxPageSize;
